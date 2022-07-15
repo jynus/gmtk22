@@ -1,0 +1,24 @@
+THEME: Roll of the dice
+- Randomness
+- Probability
+- Casinos - Loot boxes? - ruletas
+- Physical dice
+- Nivel aleatorio
+- Generación procedural
+- Porcentaje de éxito (Xcom)
+- No sufrir probabilidad - sino el que la pone
+- RNGesus
+- Ganar dados para ganar la partida
+- Stackear probabilidades, empezando con probabilidad baja
+- Loot aleatorio
+- Parody of lootboxes
+- Jugar en las caras del dado
+- Ruido estático
+- Colores aleatorios
+- Física cuántica - estados con incertidumbre
+- Shooter - shoot dice
+- Level randomly rotated
+
+Shooter 2d - you shoot dice
+* Random efects
+* Random drops (weapons)

@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://hero/Hero.tscn" type="PackedScene" id=1]
+[ext_resource path="res://enemies/Enemy.tscn" type="PackedScene" id=2]
+[ext_resource path="res://enemies/EnemySpawner.tscn" type="PackedScene" id=3]
+
+[node name="game" type="Node2D"]
+
+[node name="hero" parent="." instance=ExtResource( 1 )]
+position = Vector2( 284, 142 )
+
+[node name="enemy1" parent="." instance=ExtResource( 2 )]
+position = Vector2( 498, 260 )
+
+[node name="enemy2" parent="." instance=ExtResource( 2 )]
+position = Vector2( 527, 238 )
+
+[node name="enemy3" parent="." instance=ExtResource( 2 )]
+position = Vector2( 535, 281 )
+
+[node name="enemySpawner" parent="." instance=ExtResource( 3 )]
+position = Vector2( 68, 354 )
+
+[node name="enemySpawner2" parent="." instance=ExtResource( 3 )]
+position = Vector2( 619, -29 )
