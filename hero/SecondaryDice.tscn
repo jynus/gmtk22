@@ -129,6 +129,7 @@ position = Vector2( -0.5, 0 )
 shape = SubResource( 4 )
 
 [node name="explosionSprite" type="Sprite" parent="."]
+visible = false
 texture = ExtResource( 3 )
 
 [node name="explosionCollision" type="Area2D" parent="."]

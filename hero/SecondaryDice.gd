@@ -5,6 +5,8 @@ var current_status = State.HELD
 var velocity = Vector2.ZERO
 export var max_velocity = 200
 var hero
+var primary_texture = preload("res://sprites/dice_weapon.png")
+var secondary_texture = preload("res://sprites/dice_weapon_secondary.png")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

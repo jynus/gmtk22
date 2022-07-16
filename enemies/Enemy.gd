@@ -5,15 +5,25 @@ export var max_velocity = 50
 var velocity = Vector2.ZERO
 var hero
 export var life = 10
+var minion_type = "white_pawn"
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	hero = get_parent().get_node("hero")
+	change_type(minion_type)
 
 
 func _physics_process(delta):
 	velocity = global_position.direction_to(hero.global_position).normalized() * max_velocity
 	velocity = move_and_slide(velocity)
+
+func change_type(minion_skin):
+	if minion_skin == "black_pawn":
+		minion_type = "black_pawn"
+		$sprite.animation = "walking_black"
+	else:
+		minion_type = "white_pawn"
+		$sprite.animation = "walking_white"
 
 func damage(amount):
 	life -= amount
@@ -27,4 +37,4 @@ func die():
 
 func _on_hurtbox_body_entered(body):
 	if body.is_in_group("hero"):
-		body.damage(3)
+		body.damage(10)

@@ -22,3 +22,47 @@ THEME: Roll of the dice
 Shooter 2d - you shoot dice
 * Random efects
 * Random drops (weapons)
+
+
+* Interchangable dice
+* Dice effects:
+ * Red: basic damage
+ * Yellow: area of effect
+ * Green: Poison damage
+ * White: no effect
+ * Blue: Stun
+ 
+ 
+TODO:
+* Fix bugs related to collisions
+* Poison
+* Getting new dice
+* Stun
+* Decide on mechanics to upgrade
+* art (graphics):
+ * walls
+ * objects
+ * boss
+ * chests
+ * more enemy types
+* Level design
+* Sound effects
+ * dice throw
+ * hitting enemy
+ * exploding
+ * hurt
+ * hitting floor/walls
+* Music
+ * menu
+ * introduction
+ * level
+* Menu
+* Credits
+* Life bar for hero
+* Life bar for enemies
+* Juice: feedback:
+ - when hit
+ - when damaged
+ - polish animations
+* Narrative ???
+
