@@ -1,0 +1,221 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://levels/Popup.gd" type="Script" id=1]
+[ext_resource path="res://ui/interface_dice.tres" type="SpriteFrames" id=2]
+[ext_resource path="res://ui/selection_font.tres" type="DynamicFont" id=3]
+
+[node name="popup" type="CenterContainer"]
+margin_top = -1.0
+margin_right = 568.0
+margin_bottom = 319.0
+script = ExtResource( 1 )
+
+[node name="blur" type="ColorRect" parent="."]
+modulate = Color( 0.392157, 0.392157, 0.392157, 0.698039 )
+margin_right = 569.0
+margin_bottom = 320.0
+rect_min_size = Vector2( 569, 320 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="horizontal_container" type="VBoxContainer" parent="."]
+margin_left = 130.0
+margin_top = 49.0
+margin_right = 438.0
+margin_bottom = 270.0
+
+[node name="title" type="Label" parent="horizontal_container"]
+margin_right = 308.0
+margin_bottom = 17.0
+custom_fonts/font = ExtResource( 3 )
+text = "New dice found!"
+align = 1
+valign = 1
+
+[node name="selection" type="HBoxContainer" parent="horizontal_container"]
+margin_top = 21.0
+margin_right = 308.0
+margin_bottom = 221.0
+
+[node name="selection1" type="CenterContainer" parent="horizontal_container/selection"]
+margin_right = 100.0
+margin_bottom = 200.0
+mouse_default_cursor_shape = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Panel" type="Panel" parent="horizontal_container/selection/selection1"]
+margin_right = 100.0
+margin_bottom = 200.0
+rect_min_size = Vector2( 100, 200 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="vertical_panel" type="VBoxContainer" parent="horizontal_container/selection/selection1/Panel"]
+margin_right = 100.0
+margin_bottom = 37.0
+
+[node name="label" type="Label" parent="horizontal_container/selection/selection1/Panel/vertical_panel"]
+margin_right = 100.0
+margin_bottom = 37.0
+custom_fonts/font = ExtResource( 3 )
+text = "Drop primary
+dice:"
+align = 1
+valign = 1
+
+[node name="primary_dice_selection" type="Node2D" parent="horizontal_container/selection/selection1/Panel/vertical_panel"]
+position = Vector2( 22, 113 )
+
+[node name="dice1face1" type="AnimatedSprite" parent="horizontal_container/selection/selection1/Panel/vertical_panel/primary_dice_selection"]
+position = Vector2( 6, -13 )
+frames = ExtResource( 2 )
+animation = "stun"
+
+[node name="dice1face2" type="AnimatedSprite" parent="horizontal_container/selection/selection1/Panel/vertical_panel/primary_dice_selection"]
+position = Vector2( 22, -29 )
+frames = ExtResource( 2 )
+animation = "stun"
+
+[node name="dice1face3" type="AnimatedSprite" parent="horizontal_container/selection/selection1/Panel/vertical_panel/primary_dice_selection"]
+position = Vector2( 22.5, -12.5 )
+frames = ExtResource( 2 )
+animation = "stun"
+
+[node name="dice1face4" type="AnimatedSprite" parent="horizontal_container/selection/selection1/Panel/vertical_panel/primary_dice_selection"]
+position = Vector2( 22.5, 3.5 )
+frames = ExtResource( 2 )
+animation = "stun"
+
+[node name="dice1face5" type="AnimatedSprite" parent="horizontal_container/selection/selection1/Panel/vertical_panel/primary_dice_selection"]
+position = Vector2( 38.5, -12.5 )
+frames = ExtResource( 2 )
+animation = "stun"
+
+[node name="dice1face6" type="AnimatedSprite" parent="horizontal_container/selection/selection1/Panel/vertical_panel/primary_dice_selection"]
+position = Vector2( 54.5, -12.5 )
+frames = ExtResource( 2 )
+animation = "stun"
+
+[node name="selection2" type="CenterContainer" parent="horizontal_container/selection"]
+margin_left = 104.0
+margin_right = 204.0
+margin_bottom = 200.0
+
+[node name="Panel2" type="Panel" parent="horizontal_container/selection/selection2"]
+margin_right = 100.0
+margin_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+rect_min_size = Vector2( 100, 200 )
+
+[node name="vertical_panel2" type="VBoxContainer" parent="horizontal_container/selection/selection2/Panel2"]
+margin_right = 100.0
+margin_bottom = 40.0
+
+[node name="secondary_dice_selection" type="Node2D" parent="horizontal_container/selection/selection2/Panel2/vertical_panel2"]
+position = Vector2( 19, 110 )
+
+[node name="dice2face1" type="AnimatedSprite" parent="horizontal_container/selection/selection2/Panel2/vertical_panel2/secondary_dice_selection"]
+position = Vector2( 6, -13 )
+frames = ExtResource( 2 )
+animation = "stun"
+
+[node name="dice2face2" type="AnimatedSprite" parent="horizontal_container/selection/selection2/Panel2/vertical_panel2/secondary_dice_selection"]
+position = Vector2( 22, -29 )
+frames = ExtResource( 2 )
+animation = "stun"
+
+[node name="dice2face3" type="AnimatedSprite" parent="horizontal_container/selection/selection2/Panel2/vertical_panel2/secondary_dice_selection"]
+position = Vector2( 22.5, -12.5 )
+frames = ExtResource( 2 )
+animation = "stun"
+
+[node name="dice2face4" type="AnimatedSprite" parent="horizontal_container/selection/selection2/Panel2/vertical_panel2/secondary_dice_selection"]
+position = Vector2( 22.5, 3.5 )
+frames = ExtResource( 2 )
+animation = "stun"
+
+[node name="dice2face5" type="AnimatedSprite" parent="horizontal_container/selection/selection2/Panel2/vertical_panel2/secondary_dice_selection"]
+position = Vector2( 38.5, -12.5 )
+frames = ExtResource( 2 )
+animation = "stun"
+
+[node name="dice2face6" type="AnimatedSprite" parent="horizontal_container/selection/selection2/Panel2/vertical_panel2/secondary_dice_selection"]
+position = Vector2( 54.5, -12.5 )
+frames = ExtResource( 2 )
+animation = "stun"
+
+[node name="label2" type="Label" parent="horizontal_container/selection/selection2/Panel2/vertical_panel2"]
+margin_right = 100.0
+margin_bottom = 37.0
+custom_fonts/font = ExtResource( 3 )
+text = "Drop secondary
+dice:"
+align = 1
+valign = 1
+
+[node name="selection3" type="CenterContainer" parent="horizontal_container/selection"]
+margin_left = 208.0
+margin_right = 308.0
+margin_bottom = 200.0
+
+[node name="Panel3" type="Panel" parent="horizontal_container/selection/selection3"]
+margin_right = 100.0
+margin_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+rect_min_size = Vector2( 100, 200 )
+
+[node name="vertical_panel3" type="VBoxContainer" parent="horizontal_container/selection/selection3/Panel3"]
+margin_right = 100.0
+margin_bottom = 40.0
+
+[node name="new_dice_selection" type="Node2D" parent="horizontal_container/selection/selection3/Panel3/vertical_panel3"]
+position = Vector2( 19, 110 )
+
+[node name="dice3face1" type="AnimatedSprite" parent="horizontal_container/selection/selection3/Panel3/vertical_panel3/new_dice_selection"]
+position = Vector2( 6, -13 )
+frames = ExtResource( 2 )
+animation = "stun"
+
+[node name="dice3face2" type="AnimatedSprite" parent="horizontal_container/selection/selection3/Panel3/vertical_panel3/new_dice_selection"]
+position = Vector2( 22, -29 )
+frames = ExtResource( 2 )
+animation = "stun"
+
+[node name="dice3face3" type="AnimatedSprite" parent="horizontal_container/selection/selection3/Panel3/vertical_panel3/new_dice_selection"]
+position = Vector2( 22.5, -12.5 )
+frames = ExtResource( 2 )
+animation = "stun"
+
+[node name="dice3face4" type="AnimatedSprite" parent="horizontal_container/selection/selection3/Panel3/vertical_panel3/new_dice_selection"]
+position = Vector2( 22.5, 3.5 )
+frames = ExtResource( 2 )
+animation = "stun"
+
+[node name="dice3face5" type="AnimatedSprite" parent="horizontal_container/selection/selection3/Panel3/vertical_panel3/new_dice_selection"]
+position = Vector2( 38.5, -12.5 )
+frames = ExtResource( 2 )
+animation = "stun"
+
+[node name="dice3face6" type="AnimatedSprite" parent="horizontal_container/selection/selection3/Panel3/vertical_panel3/new_dice_selection"]
+position = Vector2( 54.5, -12.5 )
+frames = ExtResource( 2 )
+animation = "stun"
+
+[node name="label3" type="Label" parent="horizontal_container/selection/selection3/Panel3/vertical_panel3"]
+margin_right = 100.0
+margin_bottom = 37.0
+custom_fonts/font = ExtResource( 3 )
+text = "Ignore new
+dice:"
+align = 1
+valign = 1
+
+[connection signal="mouse_entered" from="horizontal_container/selection/selection1/Panel" to="." method="_on_Panel_mouse_entered"]
+[connection signal="mouse_exited" from="horizontal_container/selection/selection1/Panel" to="." method="_on_Panel_mouse_exited"]
+[connection signal="mouse_entered" from="horizontal_container/selection/selection2/Panel2" to="." method="_on_Panel2_mouse_entered"]
+[connection signal="mouse_exited" from="horizontal_container/selection/selection2/Panel2" to="." method="_on_Panel2_mouse_exited"]
+[connection signal="mouse_entered" from="horizontal_container/selection/selection3/Panel3" to="." method="_on_Panel3_mouse_entered"]
+[connection signal="mouse_exited" from="horizontal_container/selection/selection3/Panel3" to="." method="_on_Panel3_mouse_exited"]

@@ -7,36 +7,40 @@ export var max_velocity = 100
 export var friction = 10
 export var max_life = 100
 var current_life = max_life
-var dice = preload("res://hero/Dice.tscn")
+var dice_scene = preload("res://hero/Dice.tscn")
 var facing = "down"
+var primary_dice = null
+var secondary_dice = null
+
 
 func _ready():
+	pass
 	# secondary weapon
-	var d = dice.instance()
-	add_child(d)
-	d.set_primary(false)
-	d.set_faces({
-		1: {'effect': HeroGlobals.Effect.AREA, 'damage': 1},
-		2: {'effect': HeroGlobals.Effect.AREA, 'damage': 2},
-		3: {'effect': HeroGlobals.Effect.AREA, 'damage': 1},
-		4: {'effect': HeroGlobals.Effect.AREA, 'damage': 1},
-		5: {'effect': HeroGlobals.Effect.NO_EFFECT, 'damage': 0},
-		6: {'effect': HeroGlobals.Effect.NO_EFFECT, 'damage': 0}
-	})
-	d.respawn()
+	#secondary_dice = dice_scene.instance()
+	#add_child(secondary_dice)
+	#secondary_dice.set_primary(false)
+	#secondary_dice.set_faces({
+	#	1: {'effect': HeroGlobals.Effect.AREA, 'damage': 1},
+	#	2: {'effect': HeroGlobals.Effect.AREA, 'damage': 2},
+	#	3: {'effect': HeroGlobals.Effect.AREA, 'damage': 1},
+	#	4: {'effect': HeroGlobals.Effect.AREA, 'damage': 1},
+	#	5: {'effect': HeroGlobals.Effect.NO_EFFECT, 'damage': 0},
+	#	6: {'effect': HeroGlobals.Effect.NO_EFFECT, 'damage': 0}
+	#})
+	#secondary_dice.respawn()
 	# primary weapon
-	d = dice.instance()
-	add_child(d)
-	d.set_primary(true)
-	d.set_faces({
-		1: {'effect': HeroGlobals.Effect.BASIC, 'damage': 1},
-		2: {'effect': HeroGlobals.Effect.BASIC, 'damage': 2},
-		3: {'effect': HeroGlobals.Effect.BASIC, 'damage': 3},
-		4: {'effect': HeroGlobals.Effect.NO_EFFECT, 'damage': 0},
-		5: {'effect': HeroGlobals.Effect.NO_EFFECT, 'damage': 0},
-		6: {'effect': HeroGlobals.Effect.NO_EFFECT, 'damage': 0}
-	})
-	d.respawn()
+	#primary_dice = dice_scene.instance()
+	#add_child(primary_dice)
+	#primary_dice.set_primary(true)
+	#primary_dice.set_faces({
+	#	1: {'effect': HeroGlobals.Effect.BASIC, 'damage': 1},
+	#	2: {'effect': HeroGlobals.Effect.BASIC, 'damage': 2},
+	#	3: {'effect': HeroGlobals.Effect.BASIC, 'damage': 3},
+	#	4: {'effect': HeroGlobals.Effect.NO_EFFECT, 'damage': 0},
+	#	5: {'effect': HeroGlobals.Effect.NO_EFFECT, 'damage': 0},
+	#	6: {'effect': HeroGlobals.Effect.NO_EFFECT, 'damage': 0}
+	#})
+	#primary_dice.respawn()
 
 func update_lifebar():
 	$lifeBar.update()
@@ -74,7 +78,7 @@ func damage(amount):
 	update_lifebar()
 
 func die():
-	pass
+	get_tree().reload_current_scene()
 
 
 func _on_trigger_body_entered(body):
@@ -86,8 +90,38 @@ func _on_trigger_area_entered(area):
 	if area.is_in_group("dice"):
 		var dice = area.get_parent()
 		if dice.is_idle():
-			dice.respawn()
+			if dice.hero == self:
+				dice.respawn()
+			else:
+				pickup_new_dice(dice)
 	elif area.is_in_group("explosion"):
 		var dice = area.get_parent()
 		if dice.is_exploding():
 			damage(dice.current_damage)
+	else:
+		print("something else collisioned")
+
+
+func pickup_new_dice(dice):
+	if primary_dice == null:
+		print("new primary dice")
+		primary_dice = dice
+		dice.set_primary(true)
+		dice.hero = self
+		dice.spawn_point = $weaponRespawn
+		dice.die_ui = get_node("/root/game/container/interface/primary_dice")
+		dice.respawn()
+	elif secondary_dice == null:
+		print("new secondary dice")
+		secondary_dice = dice
+		dice.set_primary(false)
+		dice.hero = self
+		dice.spawn_point = $weaponRespawn2
+		dice.die_ui = get_node("/root/game/container/interface/secondary_dice")
+		dice.respawn()
+	else:
+		new_dice_selection(primary_dice, secondary_dice, dice)
+
+func new_dice_selection(primary_dice, secondary_dice, dice):
+	var popup = get_node("/root/game/container/interface/popup")
+	popup.select_dice(primary_dice, secondary_dice, dice)

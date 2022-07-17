@@ -246,7 +246,7 @@ script = ExtResource( 1 )
 position = Vector2( 4, -3 )
 frames = ExtResource( 2 )
 animation = "idle_primary"
-frame = 2
+frame = 3
 playing = true
 
 [node name="collision" type="CollisionShape2D" parent="."]
@@ -312,5 +312,10 @@ text = "0"
 align = 1
 valign = 1
 
+[node name="reenableCollisionTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
 [connection signal="timeout" from="throwTimer" to="." method="_on_throwTimer_timeout"]
 [connection signal="timeout" from="idleTimer" to="." method="_on_idleTimer_timeout"]
+[connection signal="timeout" from="reenableCollisionTimer" to="." method="_on_reenableCollisionTimer_timeout"]

@@ -53,9 +53,10 @@ func damage(amount, from):
 	status = states.HURT
 	$hurtTimer.start()
 	velocity += from.global_position.direction_to(global_position).normalized() * hurt_acceleration
-	if current_life <= 0:
-		die()
 	update_lifebar()
+	if current_life <= 0:
+		current_life = 0
+		die()
 
 func die():
 	queue_free()

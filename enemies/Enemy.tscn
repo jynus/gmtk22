@@ -46,7 +46,7 @@ tracks/0/keys = {
 [node name="enemy" type="KinematicBody2D" groups=["enemy"]]
 rotation = -0.0872665
 collision_layer = 8
-collision_mask = 45
+collision_mask = 9
 script = ExtResource( 2 )
 
 [node name="sprite" type="AnimatedSprite" parent="."]
@@ -67,7 +67,7 @@ margin_bottom = -12.9469
 [node name="hurtbox" type="Area2D" parent="."]
 position = Vector2( 0, 16 )
 collision_layer = 8
-collision_mask = 33
+collision_mask = 36
 
 [node name="collision" type="CollisionShape2D" parent="hurtbox"]
 position = Vector2( 0, -17 )
