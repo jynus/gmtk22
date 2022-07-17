@@ -2,9 +2,15 @@ extends KinematicBody2D
 
 
 export var max_velocity = 50
+export var hurt_acceleration = 500
+enum states {IDLE, PERSUING, HURT}
+export var status = states.IDLE
+export var friction = 10
+export var detection_range = 300
 var velocity = Vector2.ZERO
 var hero
-export var life = 10
+export var max_life = 10
+var current_life = max_life
 var minion_type = "white_pawn"
 
 # Called when the node enters the scene tree for the first time.
@@ -14,8 +20,22 @@ func _ready():
 
 
 func _physics_process(delta):
-	velocity = global_position.direction_to(hero.global_position).normalized() * max_velocity
-	velocity = move_and_slide(velocity)
+	match status:
+		states.PERSUING:
+			velocity += global_position.direction_to(hero.global_position) * max_velocity
+			velocity = velocity.limit_length(max_velocity)
+			velocity = move_and_slide(velocity)
+			if global_position.distance_to(hero.global_position) > detection_range:
+				status = states.IDLE
+		states.IDLE:
+			if velocity != Vector2.ZERO:
+				velocity = lerp(velocity, Vector2.ZERO, friction * delta)
+			velocity = move_and_slide(velocity)
+			if global_position.distance_to(hero.global_position) <= detection_range:
+				status = states.PERSUING
+		states.HURT:
+			velocity = lerp(velocity, Vector2.ZERO, friction * delta)
+			velocity = move_and_slide(velocity)
 
 func change_type(minion_skin):
 	if minion_skin == "black_pawn":
@@ -25,16 +45,32 @@ func change_type(minion_skin):
 		minion_type = "white_pawn"
 		$sprite.animation = "walking_white"
 
-func damage(amount):
-	life -= amount
-	if life <= 0:
+func update_lifebar():
+	$lifeBar.update()
+
+func damage(amount, from):
+	current_life -= amount
+	status = states.HURT
+	$hurtTimer.start()
+	velocity += from.global_position.direction_to(global_position).normalized() * hurt_acceleration
+	if current_life <= 0:
 		die()
-	$lifeLabel.text = str(life)
+	update_lifebar()
 
 func die():
 	queue_free()
 
 
-func _on_hurtbox_body_entered(body):
-	if body.is_in_group("hero"):
-		body.damage(10)
+func _on_hurtbox_area_entered(area):
+	if area.is_in_group("dice"):
+		var dice = area.get_parent()
+		if dice.is_shot():
+			dice.take_action(self)
+	elif area.is_in_group("explosion"):
+		var dice = area.get_parent()
+		if dice.is_exploding():
+			damage(dice.current_damage, dice)
+
+
+func _on_hurtTimer_timeout():
+	status = states.IDLE

@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://hero/hero_spriteframes.tres" type="SpriteFrames" id=1]
 [ext_resource path="res://hero/Hero.gd" type="Script" id=2]
@@ -7,16 +7,18 @@
 [sub_resource type="CapsuleShape2D" id=1]
 height = 8.0
 
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 11.5, 9.5 )
+
 [node name="hero" type="KinematicBody2D" groups=["hero"]]
 collision_layer = 2
-collision_mask = 41
 script = ExtResource( 2 )
 
 [node name="sprite" type="AnimatedSprite" parent="."]
 position = Vector2( 0, -16 )
 frames = ExtResource( 1 )
 animation = "idle_down"
-frame = 1
+frame = 4
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -32,8 +34,17 @@ position = Vector2( 2, -46 )
 [node name="weaponRespawn2" type="Position2D" parent="."]
 position = Vector2( 2, -33 )
 
-[node name="lifeLabel" parent="." instance=ExtResource( 4 )]
-margin_left = -20.0
-margin_top = -71.0
-margin_right = 20.0
-margin_bottom = -57.0
+[node name="lifeBar" parent="." instance=ExtResource( 4 )]
+margin_top = -69.0
+margin_bottom = -55.0
+
+[node name="trigger" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 44
+
+[node name="collision" type="CollisionShape2D" parent="trigger"]
+position = Vector2( 0.5, -19.5 )
+shape = SubResource( 2 )
+
+[connection signal="area_entered" from="trigger" to="." method="_on_trigger_area_entered"]
+[connection signal="body_entered" from="trigger" to="." method="_on_trigger_body_entered"]

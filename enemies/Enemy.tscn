@@ -52,23 +52,22 @@ script = ExtResource( 2 )
 [node name="sprite" type="AnimatedSprite" parent="."]
 frames = ExtResource( 1 )
 animation = "walking_white"
-frame = 2
 playing = true
 
 [node name="collision" type="CollisionShape2D" parent="."]
 position = Vector2( 0, -1 )
 shape = SubResource( 1 )
 
-[node name="lifeLabel" parent="." instance=ExtResource( 3 )]
-margin_left = -20.0
-margin_top = -27.0
-margin_right = 20.0
-margin_bottom = -13.0
+[node name="lifeBar" parent="." instance=ExtResource( 3 )]
+margin_left = -9.68828
+margin_top = -26.9469
+margin_right = 30.3117
+margin_bottom = -12.9469
 
 [node name="hurtbox" type="Area2D" parent="."]
 position = Vector2( 0, 16 )
 collision_layer = 8
-collision_mask = 0
+collision_mask = 33
 
 [node name="collision" type="CollisionShape2D" parent="hurtbox"]
 position = Vector2( 0, -17 )
@@ -79,4 +78,9 @@ autoplay = "walk"
 anims/RESET = SubResource( 3 )
 anims/walk = SubResource( 4 )
 
-[connection signal="body_entered" from="hurtbox" to="." method="_on_hurtbox_body_entered"]
+[node name="hurtTimer" type="Timer" parent="."]
+wait_time = 0.2
+one_shot = true
+
+[connection signal="area_entered" from="hurtbox" to="." method="_on_hurtbox_area_entered"]
+[connection signal="timeout" from="hurtTimer" to="." method="_on_hurtTimer_timeout"]

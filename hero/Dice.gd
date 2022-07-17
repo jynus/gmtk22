@@ -2,6 +2,7 @@ extends KinematicBody2D
 
 enum State {HELD, SHOT, IDLE, EXPLODING}
 var current_status = State.HELD
+var current_damage = 0
 var velocity = Vector2.ZERO
 export var max_velocity = 200
 var hero
@@ -18,6 +19,15 @@ func _ready():
 	hero = get_parent()
 	set_primary(true)
 	respawn()
+
+func is_idle():
+	return current_status == State.IDLE
+
+func is_shot():
+	return current_status == State.SHOT
+
+func is_exploding():
+	return current_status == State.EXPLODING
 
 func set_primary(is_primary:bool):
 	primary = is_primary
@@ -37,7 +47,9 @@ func set_faces(f):
 
 func shoot():
 	current_status = State.SHOT
-	hero.set_collision_mask_bit(3, true)
+	$statusLabel.text = "SHOT"
+	$collision.set_deferred("disabled", false)
+	$trigger/collision.set_deferred("disabled", false)
 	velocity = global_position.direction_to(get_global_mouse_position()).normalized() * max_velocity
 	var original_position = global_position
 	var new_parent = get_parent().get_parent()
@@ -47,7 +59,7 @@ func shoot():
 	$animation.play("roll")
 	$throwTimer.start()
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	match current_status:
 		State.HELD:
 			if primary and Input.is_action_just_pressed("ui_fire_primary"):
@@ -61,8 +73,10 @@ func _physics_process(delta):
 
 func respawn():
 	print("disable pickup")
-	hero.set_collision_mask_bit(2, false)
-	hero.set_collision_mask_bit(3, false)
+	$statusLabel.text = "HELD"
+	$sprite.play()
+	$collision.set_deferred("disabled", true)
+	$trigger/collision.set_deferred("disabled", true)
 	current_status = State.HELD
 	get_parent().remove_child(self)
 	hero.add_child(self)
@@ -86,47 +100,56 @@ func update_dice_interface():
 
 func set_idle():
 	current_status = State.IDLE
-	print("enable pickup")
-	hero.set_collision_mask_bit(2, true)
-	hero.set_collision_mask_bit(3, false)
+	$sprite.stop()
+	$statusLabel.text = "IDLE"
+	$collision.set_deferred("disabled", true)
+	$trigger/collision.set_deferred("disabled", false)
+	$explosionCollision/collision.set_deferred("disabled", true)
+	print("enable pickup")	
 	$animation.stop()
 	$animation.play("RESET")
 	$idleTimer.start()
 
-func set_exploding(damage):
+func set_exploding():
 	current_status = State.EXPLODING
+	$statusLabel.text = "EXPLODING"
 	$animation.play("explode")
-	var bodies = $explosionCollision.get_overlapping_bodies()
-	for b in bodies:
-		if b.is_in_group("enemy") or b.is_in_group("hero"):
-			b.damage(damage)
-			print("You make damage for %s points" % damage)
+	$explosionCollision/collision.set_deferred("disabled", false)
 
 func take_action(body):
 	if faces == null:
 		return
 	var face_selected = randi() % 6 + 1
 	print('You rolled face #%s' % face_selected)
+	current_damage = faces[face_selected].damage
 	if faces[face_selected].effect == HeroGlobals.Effect.BASIC:
-		body.damage(faces[face_selected].damage)
-		print("You make damage for %s points" % faces[face_selected].damage)
+		body.damage(current_damage, self)
+		$damageLabel.set("custom_colors/font_color", Color(1,0.3,0))
+		$damageLabel.text = str(current_damage)
+		$animation.play("damage")
+		print("You make damage for %s points" % current_damage)
+		yield(get_node("animation"), "animation_finished")
 	elif faces[face_selected].effect == HeroGlobals.Effect.AREA:
-		set_exploding(faces[face_selected].damage)
-	respawn()
+		print("Explosion in an area with %s damage" % current_damage)
+		set_exploding()
+	else:
+		$damageLabel.set("custom_colors/font_color", Color(1, 0.945, 0.91))
+		$damageLabel.text = '0'
+		$animation.play("damage")
+		print("It has no effect :-(")
 
-func _on_trigger_body_entered(body):
-	if body.is_in_group("hero"):
-		respawn()
-	elif current_status == State.SHOT:
-		take_action(body)
+#func _on_trigger_body_entered(body):
+#	if current_status == State.IDLE and body.is_in_group("hero"):
+#		respawn()
+#	elif current_status == State.SHOT and body.is_in_group("enemy"):
+#		take_action(body)
 	
 
 
 func _on_idleTimer_timeout():
-	respawn()
-
+	if current_status == State.IDLE:
+		respawn()
 
 func _on_throwTimer_timeout():
-	set_idle()
-	
-
+	if current_status == State.SHOT:
+		set_idle()
