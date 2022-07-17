@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://sound/andalucian_music.ogg" type="AudioStream" id=1]
+
+[node name="GlobalMusic" type="Node2D"]
+
+[node name="music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 1 )
+volume_db = -20.975
+autoplay = true
+bus = "music"

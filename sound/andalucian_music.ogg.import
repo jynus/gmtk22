@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/andalucian_music.ogg-8af151fda496abf00f41a183679e5e18.oggstr"
+
+[deps]
+
+source_file="res://sound/andalucian_music.ogg"
+dest_files=[ "res://.import/andalucian_music.ogg-8af151fda496abf00f41a183679e5e18.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

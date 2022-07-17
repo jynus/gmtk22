@@ -49,6 +49,7 @@ func update_lifebar():
 	$lifeBar.update()
 
 func damage(amount, from):
+	$hurt_sfx.play()
 	current_life -= amount
 	status = states.HURT
 	$hurtTimer.start()
@@ -59,7 +60,7 @@ func damage(amount, from):
 		die()
 
 func die():
-	queue_free()
+	$die_sfx.play()
 
 
 func _on_hurtbox_area_entered(area):
@@ -71,7 +72,13 @@ func _on_hurtbox_area_entered(area):
 		var dice = area.get_parent()
 		if dice.is_exploding():
 			damage(dice.current_damage, dice)
-
+	elif area.is_in_group("hero"):
+		var hero = area.get_parent()
+		hero.damage(3)
 
 func _on_hurtTimer_timeout():
 	status = states.IDLE
+
+
+func _on_die_sfx_finished():
+	queue_free()

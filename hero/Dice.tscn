@@ -1,9 +1,11 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://hero/Dice.gd" type="Script" id=1]
 [ext_resource path="res://hero/dice_spriteframes.tres" type="SpriteFrames" id=2]
 [ext_resource path="res://sprites/explosion.png" type="Texture" id=3]
 [ext_resource path="res://fonts/Roboto-Bold.ttf" type="DynamicFontData" id=4]
+[ext_resource path="res://sound/dice_roll.ogg" type="AudioStream" id=5]
+[ext_resource path="res://sound/explosion.wav" type="AudioStream" id=6]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 9.0
@@ -246,7 +248,7 @@ script = ExtResource( 1 )
 position = Vector2( 4, -3 )
 frames = ExtResource( 2 )
 animation = "idle_primary"
-frame = 3
+frame = 1
 playing = true
 
 [node name="collision" type="CollisionShape2D" parent="."]
@@ -315,6 +317,14 @@ valign = 1
 [node name="reenableCollisionTimer" type="Timer" parent="."]
 wait_time = 2.0
 one_shot = true
+
+[node name="sfx" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 5 )
+volume_db = -13.62
+bus = "sfx"
+
+[node name="explosion_sfx" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 6 )
 
 [connection signal="timeout" from="throwTimer" to="." method="_on_throwTimer_timeout"]
 [connection signal="timeout" from="idleTimer" to="." method="_on_idleTimer_timeout"]

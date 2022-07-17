@@ -1,15 +1,17 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://enemies/pawn_spriteframes.tres" type="SpriteFrames" id=1]
 [ext_resource path="res://enemies/Enemy.gd" type="Script" id=2]
 [ext_resource path="res://enemies/LifeBar.tscn" type="PackedScene" id=3]
+[ext_resource path="res://sound/enemy_hurt.wav" type="AudioStream" id=4]
+[ext_resource path="res://sound/die.wav" type="AudioStream" id=5]
 
 [sub_resource type="CapsuleShape2D" id=1]
-radius = 7.0
+radius = 5.67822
 height = 14.0
 
 [sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 8.5, 14 )
+extents = Vector2( 8.43393, 14.1645 )
 
 [sub_resource type="Animation" id=3]
 length = 0.001
@@ -52,6 +54,7 @@ script = ExtResource( 2 )
 [node name="sprite" type="AnimatedSprite" parent="."]
 frames = ExtResource( 1 )
 animation = "walking_white"
+frame = 3
 playing = true
 
 [node name="collision" type="CollisionShape2D" parent="."]
@@ -64,13 +67,13 @@ margin_top = -26.9469
 margin_right = 30.3117
 margin_bottom = -12.9469
 
-[node name="hurtbox" type="Area2D" parent="."]
+[node name="hurtbox" type="Area2D" parent="." groups=["enemy"]]
 position = Vector2( 0, 16 )
 collision_layer = 8
-collision_mask = 36
+collision_mask = 38
 
 [node name="collision" type="CollisionShape2D" parent="hurtbox"]
-position = Vector2( 0, -17 )
+position = Vector2( -0.0660724, -17.1645 )
 shape = SubResource( 2 )
 
 [node name="animation" type="AnimationPlayer" parent="."]
@@ -82,5 +85,14 @@ anims/walk = SubResource( 4 )
 wait_time = 0.2
 one_shot = true
 
+[node name="hurt_sfx" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 4 )
+bus = "sfx"
+
+[node name="die_sfx" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 5 )
+bus = "sfx"
+
 [connection signal="area_entered" from="hurtbox" to="." method="_on_hurtbox_area_entered"]
 [connection signal="timeout" from="hurtTimer" to="." method="_on_hurtTimer_timeout"]
+[connection signal="finished" from="die_sfx" to="." method="_on_die_sfx_finished"]

@@ -61,6 +61,7 @@ func set_faces(f):
 
 func shoot():
 	print("shoot")
+	$sfx.play()
 	current_status = State.SHOT
 	$statusLabel.text = "SHOT"
 	$collision.set_deferred("disabled", false)
@@ -140,6 +141,7 @@ func set_idle():
 func set_exploding():
 	current_status = State.EXPLODING
 	$statusLabel.text = "EXPLODING"
+	$explosion_sfx.play()
 	$animation.play("explode")
 	$explosionCollision/collision.set_deferred("disabled", false)
 

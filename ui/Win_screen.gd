@@ -10,4 +10,6 @@ func _on_Timer_timeout():
 
 
 func _on_next_button_pressed():
-	get_tree().quit()
+	get_tree().paused = false
+	get_tree().change_scene("res://levels/Level2.tscn")
+	get_tree().paused = false

@@ -1,8 +1,13 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://hero/hero_spriteframes.tres" type="SpriteFrames" id=1]
 [ext_resource path="res://hero/Hero.gd" type="Script" id=2]
+[ext_resource path="res://sound/walking.ogg" type="AudioStream" id=3]
 [ext_resource path="res://enemies/LifeBar.tscn" type="PackedScene" id=4]
+[ext_resource path="res://sound/pickup.wav" type="AudioStream" id=5]
+[ext_resource path="res://sound/powerup.wav" type="AudioStream" id=6]
+[ext_resource path="res://sound/death2.wav" type="AudioStream" id=7]
+[ext_resource path="res://sound/hurt.wav" type="AudioStream" id=8]
 
 [sub_resource type="CapsuleShape2D" id=1]
 height = 8.0
@@ -18,7 +23,7 @@ script = ExtResource( 2 )
 position = Vector2( 0, -16 )
 frames = ExtResource( 1 )
 animation = "idle_down"
-frame = 7
+frame = 5
 playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -40,11 +45,30 @@ margin_bottom = -55.0
 
 [node name="trigger" type="Area2D" parent="." groups=["hero"]]
 collision_layer = 2
-collision_mask = 44
+collision_mask = 40
 
 [node name="collision" type="CollisionShape2D" parent="trigger"]
 position = Vector2( 0.5, -19.5 )
 shape = SubResource( 2 )
 
+[node name="sfx_walking" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 3 )
+volume_db = -10.487
+bus = "sfx"
+
+[node name="sfx_pickup" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 5 )
+volume_db = -10.487
+bus = "sfx"
+
+[node name="sfx_new_dice" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 6 )
+
+[node name="sfx_die" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 7 )
+
+[node name="sfx_hurt" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 8 )
+
 [connection signal="area_entered" from="trigger" to="." method="_on_trigger_area_entered"]
-[connection signal="body_entered" from="trigger" to="." method="_on_trigger_body_entered"]
+[connection signal="finished" from="sfx_die" to="." method="_on_sfx_die_finished"]
